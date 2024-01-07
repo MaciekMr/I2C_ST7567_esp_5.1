@@ -1,0 +1,41 @@
+menu "I2C Config"
+
+    choice I2C_MODE
+        prompt "I2C mode"
+        default I2C_MODE_MASTER
+        help
+            Select to use Internal DAC or external I2S driver
+
+        config I2C_MODE_MASTER
+            bool "I2C Master"
+            help
+                I2C Master
+
+        config I2C_MODE_SLAVE
+            bool "I2C Slave"
+            help
+                I2C Slave
+
+    endchoice
+    
+    config I2C_PORT_NO
+        int "I2C PORT NUMBER"
+        default -1
+    
+    config I2C_SDA_PIN
+        int "I2C SDA PIN"
+        default -1
+    
+    config I2C_SCL_PIN
+        int "I2C SCL PIN"
+        default -1
+    
+    config I2C_CLOCK_SPEED
+        int "I2C CLOCK SPEED in Hz"
+        default 400000
+    
+    config I2C_TIMEOUT
+        int "I2C TIMEOUT in ms"
+        default 10
+
+endmenu
