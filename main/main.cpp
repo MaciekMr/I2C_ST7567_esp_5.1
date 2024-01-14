@@ -3,6 +3,7 @@
 #include "esp_chip_info.h"
 #include "esp_flash_spi_init.h"
 #include "i2c_class.h"
+#include "lcd_SSD1306.h"
 
 extern "C" {
 	void app_main(void);
@@ -63,8 +64,13 @@ void app_main(void)
     //printf("%dMB %s flash\n", esp_flash_get_size() / (1024 * 1024),
     //        (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
     esp_err_t ret_val;
-    i2c_esp32 i2c;
-    i2c.i2c_scan();
+    //i2c_esp32 i2c;
+    //i2c.i2c_scan();
+
+
+    ssd1306 lcd;
+    lcd.init_chip();
+    //lcd.example();
 
     //scan_port();
 

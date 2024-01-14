@@ -30,6 +30,7 @@
 
 #define I2C_MASTER_PORT -1
 #define I2C_PORT_RANGE 0x7F //7bit address - 0-127
+#define ACK_CHECK_EN   0x1
 
 #define I2C_TAG "I2C_MASTER"
 
@@ -41,20 +42,31 @@ struct I2C_PINS
 
 class i2c_esp32
 {
-
+//Static
+private:
+    i2c_cmd_handle_t            cmd_handle;
+protected:
+    static bool                 i2c_initiated;
+protected:
+    uint8_t                     device_port;
 protected:
     i2c_config_t                bus_config;
-
     int                         i2c_port;
     I2C_PINS                    pins;
-    i2c_cmd_handle_t            cmd_handle;
+
 public:
     i2c_esp32();
     ~i2c_esp32();
     esp_err_t init_master();
     esp_err_t init_device(uint8_t _port_no);
     esp_err_t remove_device();
-    esp_err_t send_data(uint8_t port_no, uint8_t * write_buffer, size_t buffer_size, int time_out);
+    void get_new_command_handler();
+    esp_err_t execute_command_set();
+    esp_err_t send_data(uint8_t port_no, uint8_t * write_buffer, size_t buffer_size, int time_out = I2C_TIMEOUT);
+    esp_err_t send_byte(uint8_t write_buffer, int time_out = I2C_TIMEOUT);
+    esp_err_t send_byte(uint8_t port_no, uint8_t *write_buffer, int time_out = I2C_TIMEOUT);
+    esp_err_t send_multi_byte(uint8_t * write_buffer, size_t buffer_size, int time_out = I2C_TIMEOUT);
+    esp_err_t send_multi_byte(uint8_t port_no, uint8_t * write_buffer, size_t buffer_size, int time_out = I2C_TIMEOUT);
     void i2c_scan();
     esp_err_t probe_device(uint8_t _port_no);
 };
